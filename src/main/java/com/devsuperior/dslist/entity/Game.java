@@ -1,14 +1,12 @@
-package com.devsuperior.dslist.entities;
+package com.devsuperior.dslist.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "tb_game")
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -32,5 +30,4 @@ public class Game {
 
     @Column(columnDefinition = "TEXT")
     private String longDescription;
-
 }
