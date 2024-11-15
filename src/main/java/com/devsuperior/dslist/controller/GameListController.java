@@ -1,12 +1,13 @@
 package com.devsuperior.dslist.controller;
 
 import com.devsuperior.dslist.dto.GameListTO;
+import com.devsuperior.dslist.dto.GameTO;
+import com.devsuperior.dslist.exception.GameListNotFound;
 import com.devsuperior.dslist.service.GameListService;
+import com.devsuperior.dslist.service.GameService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
 public class GameListController {
 
     private final GameListService gameListService;
+    private final GameService gameService;
 
     @GetMapping
     public ResponseEntity<List<GameListTO>> getAllGameList() {
@@ -23,5 +25,18 @@ public class GameListController {
         return gameLists.isEmpty() ?
                 ResponseEntity.noContent().build() :
                 ResponseEntity.ok(gameLists);
+    }
+
+    @GetMapping("/{listId}/games")
+    public ResponseEntity<List<GameTO>> findByList(@PathVariable("listId") Long id) {
+        List<GameTO> games = gameService.findByList(id);
+        return games.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(games);
+    }
+
+    @ExceptionHandler(GameListNotFound.class)
+    public ResponseEntity<Void> handleGameListNotFound(GameListNotFound ex) {
+        return ResponseEntity.notFound().build();
     }
 }
