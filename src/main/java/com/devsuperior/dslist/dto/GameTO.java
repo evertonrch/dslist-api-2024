@@ -10,6 +10,6 @@ public record GameTO(Long id, String title, Integer year, String imgUrl, String 
     }
 
     public GameTO(GameProjection projection) {
-        this(projection.getId(), projection.getTitle(), projection.getYear(), projection.getImgUrl(), projection.getShortDescription());
+        this(projection.getId(), projection.getTitle(), projection.getGameYear(), projection.getImgUrl(), projection.getShortDescription());
     }
 }
