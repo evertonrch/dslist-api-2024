@@ -1,11 +1,11 @@
 package com.devsuperior.dslist.service;
 
 import com.devsuperior.dslist.dto.GameListTO;
-import com.devsuperior.dslist.exception.InvalidPositionException;
 import com.devsuperior.dslist.projection.GameProjection;
-import com.devsuperior.dslist.repository.BelogingRepository;
 import com.devsuperior.dslist.repository.GameListRepository;
 import com.devsuperior.dslist.repository.GameRepository;
+import com.devsuperior.dslist.validator.DestinationPositionValidator;
+import com.devsuperior.dslist.validator.SourcePositionValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,8 @@ public class GameListService {
 
     private final GameListRepository gameListRepository;
     private final GameRepository gameRepository;
-    private final BelogingRepository belogingRepository;
+    private final SourcePositionValidator sourcePositionValidator;
+    private final DestinationPositionValidator destinationPositionValidator;
 
     public List<GameListTO> allGameList() {
         return gameListRepository.findAll().stream()
@@ -28,13 +29,8 @@ public class GameListService {
 
     @Transactional
     public void move(Long listId, int sourceIndex, int destinationIndex) {
-        boolean existePosicaoOrigem = belogingRepository.existsByPosition(sourceIndex);
-        if (!existePosicaoOrigem)
-            throw new InvalidPositionException("Posição de origem inválida.");
-
-        boolean existePosicaoDestino = belogingRepository.existsByPosition(destinationIndex);
-        if (!existePosicaoDestino)
-            throw new InvalidPositionException("Posição de destino inválida;");
+        sourcePositionValidator.validate(sourceIndex);
+        destinationPositionValidator.validate(destinationIndex);
 
         List<GameProjection> list = gameRepository.searchByList(listId);
         GameProjection removed = list.remove(sourceIndex);
