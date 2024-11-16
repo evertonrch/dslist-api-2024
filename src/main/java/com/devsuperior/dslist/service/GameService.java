@@ -4,8 +4,8 @@ import com.devsuperior.dslist.dto.GameFullTO;
 import com.devsuperior.dslist.dto.GameTO;
 import com.devsuperior.dslist.entity.Game;
 import com.devsuperior.dslist.entity.GameList;
-import com.devsuperior.dslist.exception.GameListNotFound;
-import com.devsuperior.dslist.exception.GameNotFound;
+import com.devsuperior.dslist.exception.GameListNotFoundException;
+import com.devsuperior.dslist.exception.GameNotFoundException;
 import com.devsuperior.dslist.repository.GameListRepository;
 import com.devsuperior.dslist.repository.GameRepository;
 import lombok.AllArgsConstructor;
@@ -32,7 +32,7 @@ public class GameService {
     @Transactional(readOnly = true)
     public GameFullTO gameById(Long id) {
         Game game = gameRepository.findById(id)
-                .orElseThrow(() -> new GameNotFound("Game não encontrado."));
+                .orElseThrow(() -> new GameNotFoundException("Game não encontrado."));
 
         return new GameFullTO(game);
     }
@@ -50,6 +50,6 @@ public class GameService {
     @Transactional(readOnly = true)
     private GameList gameListPorId(Long listId) {
         return gameListRepository.findById(listId)
-                .orElseThrow(() -> new GameListNotFound("Tipo de lista não existe."));
+                .orElseThrow(() -> new GameListNotFoundException("Tipo de lista não existe."));
     }
 }

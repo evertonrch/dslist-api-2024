@@ -3,7 +3,8 @@ package com.devsuperior.dslist.controller;
 import com.devsuperior.dslist.dto.GameListTO;
 import com.devsuperior.dslist.dto.GameTO;
 import com.devsuperior.dslist.dto.ReplacementTO;
-import com.devsuperior.dslist.exception.GameListNotFound;
+import com.devsuperior.dslist.exception.GameListNotFoundException;
+import com.devsuperior.dslist.exception.InvalidPositionException;
 import com.devsuperior.dslist.service.GameListService;
 import com.devsuperior.dslist.service.GameService;
 import lombok.AllArgsConstructor;
@@ -43,8 +44,13 @@ public class GameListController {
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
-    @ExceptionHandler(GameListNotFound.class)
-    public ResponseEntity<Void> handleGameListNotFound(GameListNotFound ex) {
+    @ExceptionHandler(GameListNotFoundException.class)
+    public ResponseEntity<Void> handleGameListNotFound(GameListNotFoundException ex) {
         return ResponseEntity.notFound().build();
+    }
+
+    @ExceptionHandler(InvalidPositionException.class)
+    public ResponseEntity<Void> handleInvalidPositionException(InvalidPositionException ex) {
+        return ResponseEntity.badRequest().build();
     }
 }

@@ -2,7 +2,7 @@ package com.devsuperior.dslist.controller;
 
 import com.devsuperior.dslist.dto.GameFullTO;
 import com.devsuperior.dslist.dto.GameTO;
-import com.devsuperior.dslist.exception.GameNotFound;
+import com.devsuperior.dslist.exception.GameNotFoundException;
 import com.devsuperior.dslist.service.GameService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,8 +33,8 @@ public class GameController {
         return new ResponseEntity<>(gameTO, HttpStatus.OK);
     }
 
-    @ExceptionHandler(GameNotFound.class)
-    public ResponseEntity<Void> handleGameNotFound(GameNotFound ex) {
+    @ExceptionHandler(GameNotFoundException.class)
+    public ResponseEntity<Void> handleGameNotFound(GameNotFoundException ex) {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
