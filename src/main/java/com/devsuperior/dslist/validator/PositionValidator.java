@@ -3,9 +3,7 @@ package com.devsuperior.dslist.validator;
 import com.devsuperior.dslist.exception.InvalidPositionException;
 import com.devsuperior.dslist.repository.BelogingRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
 
-@Component
 @AllArgsConstructor
 public abstract class PositionValidator {
 
